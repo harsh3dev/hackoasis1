@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Bounce, toast } from 'react-toastify';
+import { Bounce, toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -55,7 +56,7 @@ const FormComponent = () => {
       // Check bot prediction from the response
       if (res2.prediction[0].bot === false) {
         toast.success('Form submitted successfully!', {
-          position: 'top-right',
+          position: 'top-center',
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -69,7 +70,7 @@ const FormComponent = () => {
       }
 
       // Save user data in local storage
-      const { ip_address, user_agent, current_timestamp, prediction } = res2[0];
+      const { ip_address, user_agent, current_timestamp, prediction } = res2;
       const newUser = {
         ipAddress: ip_address,
         userAgent: user_agent,
@@ -229,6 +230,7 @@ const FormComponent = () => {
           </form>
         </CardContent>
       </Card>
+      <ToastContainer/>
     </div>
   )
 }
