@@ -119,7 +119,9 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api', (req, res) => {
-    res.send('API endpoint');
+    console.time('API response time');
+    res.json({message: 'API response', status: 'OK'});
+    console.timeEnd('API response time end');
 });
 
 // Start the server
