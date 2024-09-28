@@ -1,3 +1,5 @@
+// docker run -d -p 6379:6379 redis
+
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const RedisStore = require('rate-limit-redis');
@@ -123,7 +125,10 @@ app.get('/api', (req, res) => {
     res.json({message: 'API response', status: 'OK'});
     console.timeEnd('API response time end');
 });
-
+app.post('/unblock', (req, res) => {
+    blockedIPs.clear();  // Clear all blocked IPs
+    res.status(200).json({ message: "All IPs have been unblocked." });
+});
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
