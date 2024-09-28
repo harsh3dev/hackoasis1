@@ -1,12 +1,19 @@
 import './App.css'
-import NetworkData from './components/Admin'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './components/Home';
+import Admin from './components/Admin';
+import Form from './components/Form';
 
 function App() {
 
   return (
-    <>
-    <NetworkData/>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/form" element={<Form />} />
+      </Routes>
+    </Router>
   )
 }
 

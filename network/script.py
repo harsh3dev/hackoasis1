@@ -107,7 +107,7 @@ def process_packets():
 
 # FastAPI endpoint to collect and process network data
 @app.get("/collect-data")
-def get_network_data(duration: Optional[int] = 60):
+def get_network_data(duration: Optional[int] = 30):
     # Start sniffing packets
     global packets_data
     packets_data = []
