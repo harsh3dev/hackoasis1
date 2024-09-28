@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mouse Movement Replay</title>
+    <style>
+        #target {
+            width: 700px;
+            height: 400px;
+            background-color: #333;
+            margin: auto;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div id="target">
+        <canvas id="canvas" width="700" height="400"></canvas>
+    </div>
+    <button id="replay-btn">Replay</button>
+
+    <script>
+        // Sample data (replace with your own data)
+        const mouseData = [
+    {
+        "event_name": "click",
+        "x_position": 128,
+        "y_position": 695,
+        "timestamp": 1727254642913
+    },
+    {
+        "event_name": "mouseout",
+        "x_position": 307,
+        "y_position": 284,
+        "timestamp": 1727254644280
+    },
+    {
+        "event_name": "mouseover",
+        "x_position": 307,
+        "y_position": 284,
+        "timestamp": 1727254644281
+    },
+    {
+        "event_name": "mousemove",
+        "x_position": 307,
+        "y_position": 284,
+        "timestamp": 1727254644281
+    },
+    {
+        "event_name": "mousedown",
+        "x_position": 307,
+        "y_position": 284,
+        "timestamp": 1727254644281
+    },
+    {
+        "event_name": "mouseup",
+        "x_position": 307,
+        "y_position": 284,
+        "timestamp": 1727254644284
+    },
+    {
+        "event_name": "click",
+        "x_position": 307,
+        "y_position": 284,
+        "timestamp": 1727254644286
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254645481
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254645484
+    },
+    {
+        "event_name": "mouseout",
+        "x_position": 259,
+        "y_position": 361,
+        "timestamp": 1727254646464
+    },
+    {
+        "event_name": "mouseover",
+        "x_position": 259,
+        "y_position": 361,
+        "timestamp": 1727254646464
+    },
+    {
+        "event_name": "mousemove",
+        "x_position": 259,
+        "y_position": 361,
+        "timestamp": 1727254646464
+    },
+    {
+        "event_name": "mousedown",
+        "x_position": 259,
+        "y_position": 361,
+        "timestamp": 1727254646465
+    },
+    {
+        "event_name": "mouseup",
+        "x_position": 259,
+        "y_position": 361,
+        "timestamp": 1727254646466
+    },
+    {
+        "event_name": "click",
+        "x_position": 259,
+        "y_position": 361,
+        "timestamp": 1727254646469
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254646894
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254646895
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254646990
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254648089
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254648249
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254648250
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254648348
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254648413
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254649484
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254649486
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254649635
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254649756
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254649757
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254649949
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254650052
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254650054
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254650202
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254650225
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254650226
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254650402
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254650403
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254650513
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254650543
+    },
+    {
+        "event_name": "mouseout",
+        "x_position": 454,
+        "y_position": 356,
+        "timestamp": 1727254651866
+    },
+    {
+        "event_name": "mouseover",
+        "x_position": 454,
+        "y_position": 356,
+        "timestamp": 1727254651866
+    },
+    {
+        "event_name": "mousemove",
+        "x_position": 454,
+        "y_position": 356,
+        "timestamp": 1727254651866
+    },
+    {
+        "event_name": "mousedown",
+        "x_position": 454,
+        "y_position": 356,
+        "timestamp": 1727254651866
+    },
+    {
+        "event_name": "mouseup",
+        "x_position": 454,
+        "y_position": 356,
+        "timestamp": 1727254651868
+    },
+    {
+        "event_name": "click",
+        "x_position": 454,
+        "y_position": 356,
+        "timestamp": 1727254651871
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254652505
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254652506
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254652615
+    },
+    {
+        "event_name": "mouseout",
+        "x_position": 176,
+        "y_position": 440,
+        "timestamp": 1727254653888
+    },
+    {
+        "event_name": "mouseover",
+        "x_position": 176,
+        "y_position": 440,
+        "timestamp": 1727254653888
+    },
+    {
+        "event_name": "mousemove",
+        "x_position": 176,
+        "y_position": 440,
+        "timestamp": 1727254653888
+    },
+    {
+        "event_name": "mousedown",
+        "x_position": 176,
+        "y_position": 440,
+        "timestamp": 1727254653888
+    },
+    {
+        "event_name": "mouseup",
+        "x_position": 176,
+        "y_position": 440,
+        "timestamp": 1727254653890
+    },
+    {
+        "event_name": "click",
+        "x_position": 176,
+        "y_position": 440,
+        "timestamp": 1727254653895
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254654569
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254654571
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254654671
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254654751
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254654753
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254654863
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254654918
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254654920
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254655045
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254655145
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254655146
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254655270
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254655322
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254655323
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254655414
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254655478
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254655480
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254655597
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254655721
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254655723
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254655819
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254655882
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254655883
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254655980
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254656055
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254656057
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254656192
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254656314
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254656316
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254656409
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254656538
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254656540
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254656614
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254656751
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254656753
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254656824
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254657189
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254657191
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254657293
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254657462
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254657464
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254657599
+    },
+    {
+        "event_name": "mouseout",
+        "x_position": 405,
+        "y_position": 424,
+        "timestamp": 1727254659715
+    },
+    {
+        "event_name": "mouseover",
+        "x_position": 405,
+        "y_position": 424,
+        "timestamp": 1727254659715
+    },
+    {
+        "event_name": "mousemove",
+        "x_position": 405,
+        "y_position": 424,
+        "timestamp": 1727254659715
+    },
+    {
+        "event_name": "mousedown",
+        "x_position": 405,
+        "y_position": 424,
+        "timestamp": 1727254659715
+    },
+    {
+        "event_name": "mouseup",
+        "x_position": 405,
+        "y_position": 424,
+        "timestamp": 1727254659718
+    },
+    {
+        "event_name": "click",
+        "x_position": 405,
+        "y_position": 424,
+        "timestamp": 1727254659721
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254660397
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254660399
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254660477
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254660556
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254660558
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254660648
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254660748
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254660750
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254660861
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254661147
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254661150
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254661271
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254661707
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254661708
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254661827
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254661916
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254661918
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254662044
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254662264
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254662267
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254662345
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254662471
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254662474
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254662561
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254662677
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254662680
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254662794
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254663065
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254663067
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254663163
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254663352
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254663355
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254663479
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254663586
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254663588
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254663699
+    },
+    {
+        "event_name": "mouseout",
+        "x_position": 318,
+        "y_position": 528,
+        "timestamp": 1727254665042
+    },
+    {
+        "event_name": "mouseover",
+        "x_position": 318,
+        "y_position": 528,
+        "timestamp": 1727254665042
+    },
+    {
+        "event_name": "mousemove",
+        "x_position": 318,
+        "y_position": 528,
+        "timestamp": 1727254665042
+    },
+    {
+        "event_name": "mousedown",
+        "x_position": 318,
+        "y_position": 528,
+        "timestamp": 1727254665042
+    },
+    {
+        "event_name": "mouseup",
+        "x_position": 318,
+        "y_position": 528,
+        "timestamp": 1727254665045
+    },
+    {
+        "event_name": "click",
+        "x_position": 318,
+        "y_position": 528,
+        "timestamp": 1727254665049
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254665767
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254665769
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254665843
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254665943
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254665946
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254666028
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254666135
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254666138
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254666219
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254666411
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254666413
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254666489
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254666580
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254666582
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254666657
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254666753
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254666755
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254666839
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254666988
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254666990
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254667061
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254667142
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254667144
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254667212
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254667342
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254667345
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254667354
+    },
+    {
+        "event_name": "keydown",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254668098
+    },
+    {
+        "event_name": "keypress",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254668100
+    },
+    {
+        "event_name": "keyup",
+        "x_position": 0,
+        "y_position": 0,
+        "timestamp": 1727254668194
+    },
+    {
+        "event_name": "mouseout",
+        "x_position": 109,
+        "y_position": 579,
+        "timestamp": 1727254669592
+    },
+    {
+        "event_name": "mouseover",
+        "x_position": 109,
+        "y_position": 579,
+        "timestamp": 1727254669592
+    },
+    {
+        "event_name": "mousemove",
+        "x_position": 109,
+        "y_position": 579,
+        "timestamp": 1727254669592
+    },
+    {
+        "event_name": "mousedown",
+        "x_position": 109,
+        "y_position": 579,
+        "timestamp": 1727254669592
+    },
+    {
+        "event_name": "mouseup",
+        "x_position": 109,
+        "y_position": 579,
+        "timestamp": 1727254669595
+    },
+    {
+        "event_name": "click",
+        "x_position": 109,
+        "y_position": 579,
+        "timestamp": 1727254669597
+    }
+]
+
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let startTime;
+
+        function replayMouseMovements() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas before replaying
+
+            startTime = performance.now();
+
+            function draw_frame() {
+                const timeElapsed = performance.now() - startTime;
+                
+                // Filter points that are ready to be drawn based on the timestamp
+                const points = mouseData w// Dividing by 1000 to convert ms to seconds
+
+                // if (points.length > 1) {
+                    // Draw the path by connecting the points
+                    ctx.beginPath();
+                    ctx.moveTo(points[0].x_position, points[0].y_position);
+
+                    for (let i = 1; i < points.length; i++) {
+                        ctx.lineTo(points[i].x_position, points[i].y_position);
+                    }
+
+                    ctx.strokeStyle = 'blue';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                
+
+                // Continue drawing frames until all points are drawn
+                if (points.length < mouseData.length) {
+                    requestAnimationFrame(draw_frame);
+                }
+            }
+
+            requestAnimationFrame(draw_frame);
+        }
+
+        document.getElementById('replay-btn').addEventListener('click', replayMouseMovements);
+    </script>
+</body>
+</html>

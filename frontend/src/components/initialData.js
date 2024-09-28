@@ -1,5 +1,4 @@
 export const initialData = [
-    ,
     {
         "src_ip": "192.168.213.133",
         "dst_ip": "157.240.1.61",
@@ -620,7 +619,7 @@ export const initialData = [
         "dst_port": 57102,
         "first_packet_time": "2024-09-28 13:03:31",
         "last_packet_time": "2024-09-28 13:03:33",
-        "flow_duration": 1.7371292114257812,
+        "flow_duration": 1.1420700550079346,
         "tot_fwd_pkts": 32,
         "tot_len_fwd_pkts": 15892,
         "fwd_pkt_len_max": 5174,

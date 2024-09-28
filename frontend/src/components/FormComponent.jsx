@@ -174,10 +174,10 @@ const FormComponent = () => {
   };
 
   
-  const clearEvents = () => {
-    setEvents([]);
-    localStorage.removeItem('domEvents');
-  };
+  // const clearEvents = () => {
+  //   setEvents([]);
+  //   localStorage.removeItem('domEvents');
+  // };
 
   
   useEffect(() => {
@@ -204,9 +204,9 @@ const FormComponent = () => {
 
 
   return (
-    <div className="p-8 w-full bg-gray-100 h-full grid grid-cols-2 gap-8 ">
-      <div className='w-full h-full flex flex-col justify-start items-start gap-4'>
-        <h1 className="text-2xl font-bold mb-4">Form with Event Data Capture</h1>
+    <div className="p-8 w-full bg-gray-100 h-full grid gap-8 ">
+      <h1 className=' w-full text-center font-bold text-3xl '>IEM HackOasis 1.0</h1>
+      <div className="w-full h-full flex flex-col justify-start items-start gap-4">
         <div className="bg-white p-6 rounded-md shadow-md w-full">
           <h2 className="text-lg font-medium mb-2">Fill the Form:</h2>
           <form
@@ -228,9 +228,12 @@ const FormComponent = () => {
                 onChange={handleChange}
               />
             </div>
-            <div className=' flex items-center gap-4 '>
-              <div className='w-1/2'>
-                <label htmlFor="email" className="block text-sm font-medium mb-1">
+            <div className=" flex items-center gap-4 ">
+              <div className="w-1/2">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium mb-1"
+                >
                   Email:
                 </label>
                 <input
@@ -243,8 +246,11 @@ const FormComponent = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div className='w-1/2'>
-                <label htmlFor="fathers_name" className="block text-sm font-medium mb-1">
+              <div className="w-1/2">
+                <label
+                  htmlFor="fathers_name"
+                  className="block text-sm font-medium mb-1"
+                >
                   Father{"'"}s Name:
                 </label>
                 <input
@@ -258,9 +264,12 @@ const FormComponent = () => {
                 />
               </div>
             </div>
-            <div className='flex gap-4 items-center'>
-              <div className='w-full'>
-                <label htmlFor="aadhaar" className="block text-sm font-medium mb-1">
+            <div className="flex gap-4 items-center">
+              <div className="w-full">
+                <label
+                  htmlFor="aadhaar"
+                  className="block text-sm font-medium mb-1"
+                >
                   Aadhaar Number (14 digits):
                 </label>
                 <input
@@ -275,8 +284,7 @@ const FormComponent = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div className='w-1/2'>
-            </div>
+              <div className="w-1/2"></div>
               <label htmlFor="eid" className="block text-sm font-medium mb-1">
                 EID (12 digits):
               </label>
@@ -292,7 +300,7 @@ const FormComponent = () => {
                 onChange={handleChange}
               />
             </div>
-        
+
             <div>
               <label htmlFor="phone" className="block text-sm font-medium mb-1">
                 Phone Number:
@@ -308,38 +316,39 @@ const FormComponent = () => {
                 onChange={handleChange}
               />
             </div>
-        
-            <button type="submit" id='submit' className="bg-blue-500 text-white py-2 px-4 rounded-md">
+
+            <button
+              type="submit"
+              id="submit"
+              className="bg-blue-500 text-white py-2 px-4 rounded-md"
+            >
               Submit
             </button>
           </form>
         </div>
-
       </div>
 
-      <div className="bg-white px-6 rounded-md max-h-[35rem] overflow-scroll relative flex flex-col justify-between items-center shadow-md mt-4">
-          <h2 className="text-lg font-medium mb-2">Captured Events:</h2>
-          <ul className="space-y-2 flex flex-col-reverse ">
-            {events.map((event, index) => (
-              <li key={index}>
-                {`Event Type: ${event.event_name}, X: ${event.x_position}, Y: ${event.y_position}, Timestamp: ${event.timestamp}`}
-              </li>
-            ))}
-          </ul>
-          <div className='sticky bottom-0 p-4 bg-white w-full '>
-            <div className='flex justify-center items-center gap-4 w-full'>
-              <button
-                onClick={clearEvents}
-                id='clear-events'
-                className="mt-4 bg-red-500 text-white py-2 px-4 rounded-md"
-              >
-                Clear Events
-              </button>
-              {/* <button id="download-csv" onClick={handleDownload} className="mt-4 bg-green-500 text-white py-2 px-4 rounded-md">Download CSV</button> */}
-            </div>
+      {/* <div className="bg-white px-6 rounded-md max-h-[35rem] overflow-scroll relative flex flex-col justify-between items-center shadow-md mt-4">
+        <h2 className="text-lg font-medium mb-2">Captured Events:</h2>
+        <ul className="space-y-2 flex flex-col-reverse ">
+          {events.map((event, index) => (
+            <li key={index}>
+              {`Event Type: ${event.event_name}, X: ${event.x_position}, Y: ${event.y_position}, Timestamp: ${event.timestamp}`}
+            </li>
+          ))}
+        </ul>
+        <div className="sticky bottom-0 p-4 bg-white w-full ">
+          <div className="flex justify-center items-center gap-4 w-full">
+            <button
+              onClick={clearEvents}
+              id="clear-events"
+              className="mt-4 bg-red-500 text-white py-2 px-4 rounded-md"
+            >
+              Clear Events
+            </button>
           </div>
         </div>
-      
+      </div> */}
     </div>
   );
 }
