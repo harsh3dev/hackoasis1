@@ -36,7 +36,7 @@ const FormComponent = () => {
     console.log('Captured events:', events);
     captureEvent('form_submission', e);
     
-    /*
+    
     const payload = {
       mouseMoveCount: mousemoveCount, 
       keyPressCount: keypressCount, 
@@ -59,7 +59,7 @@ const FormComponent = () => {
       } catch (error) {
         console.error('Error submitting event data:', error);
       }
-    */
+    
     // if(result[0].bot===false){
     //   toast.success('Form Submitted Successfully', {
     //     position: "top-center",
@@ -75,11 +75,11 @@ const FormComponent = () => {
     // } else if(result[0].bot===true){
     //   router.push('/verify');
     // Make an API call to send the captured events
-    const payload = {
-      mouseMoveCount: mousemoveCount, 
-      keyPressCount: keypressCount, 
-      events: events 
-    };
+    // const payload = {
+    //   mouseMoveCount: mousemoveCount, 
+    //   keyPressCount: keypressCount, 
+    //   events: events 
+    // };
 
     try {
       const res = await fetch('http://127.0.0.1:5000/predict', {
