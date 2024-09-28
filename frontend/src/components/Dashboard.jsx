@@ -123,9 +123,9 @@ useEffect(() => {
 }, [data]);
 
 
-  const getFlowStatus = (flow) => {
-    if (flow.flow_byts_per_sec > 15000000) return 'critical'
-    if (flow.flow_byts_per_sec > 10000000) return 'alert'
+  const getFlowStatus = () => {
+    // if (flow.flow_byts_per_sec > 15000000) return 'critical'
+    // if (flow.flow_byts_per_sec > 10000000) return 'alert'
     return 'normal'
   }
 
